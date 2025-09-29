@@ -1,6 +1,6 @@
-// src/portfolios/entities/portfolio.entity.ts
-import { Column, DataType, ForeignKey, Model, Table, BelongsTo } from 'sequelize-typescript';
+import { Column, DataType, ForeignKey, Model, Table, BelongsTo, HasMany } from 'sequelize-typescript';
 import { User } from '../../users/entities/user.entity';
+import { Image } from 'src/images/entity/image.entity';
 
 export interface PortfolioCreationAttrs {
     title: string;
@@ -25,4 +25,7 @@ export class Portfolio extends Model<Portfolio, PortfolioCreationAttrs> {
 
     @BelongsTo(() => User)
     user: User;
+
+    @HasMany(() => Image)
+    images: Image[];
 }

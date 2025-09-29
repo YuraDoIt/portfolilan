@@ -4,11 +4,15 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
 import { User } from './entities/user.entity';
+import { Portfolio } from 'src/portfolios/entities/portfolio.entity';
+import { Image } from 'src/images/entity/image.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectModel(User) private userRepository: typeof User
+    @InjectModel(User) private userRepository: typeof User,
+    @InjectModel(Portfolio) private portfolioRepository: typeof Portfolio,
+    @InjectModel(Image) private imageRepository: typeof Image,
   ) { }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -48,8 +52,22 @@ export class UsersService {
     return user;
   }
 
-  async remove(id: number): Promise<void> {
-    const user = await this.findOne(id);
+  async removeUser(userId: number): Promise<void> {
+    const portfolios = await this.portfolioRepository.findAll({
+      where: { userId },
+      include: [{ model: Image }],
+    });
+
+    for (const portfolio of portfolios) {
+      for (const image of portfolio.images) {
+        await image.destroy();
+      }
+      await portfolio.destroy();
+    }
+
+    const user = await this.userRepository.findByPk(userId);
+    if (!user) throw new NotFoundException('User not found');
+
     await user.destroy();
   }
 

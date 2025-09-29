@@ -1,8 +1,9 @@
-import { Controller, Post, Body, Get, Param, Patch, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Patch, Delete, UseGuards, Request } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @ApiTags('Users')
 @Controller('users')
@@ -34,9 +35,10 @@ export class UsersController {
     return this.usersService.update(+id, updateUserDto);
   }
 
-  @Delete(':id')
-  @ApiOperation({ summary: 'Delete user' })
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  @Delete('me')
+  @UseGuards(JwtAuthGuard)
+  async deleteOwnProfile(@Request() req) {
+    await this.usersService.removeUser(req.user.id);
+    return { message: 'User and related portfolios and images deleted' };
   }
 }
