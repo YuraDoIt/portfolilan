@@ -1,7 +1,18 @@
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
+import {
+    Table,
+    Column,
+    Model,
+    DataType,
+} from 'sequelize-typescript';
+
+interface UserCreationAttrs {
+    username: string;
+    email: string;
+    password: string;
+}
 
 @Table({ tableName: 'users' })
-export class User extends Model<User> {
+export class User extends Model<User, UserCreationAttrs> {
     @Column({
         type: DataType.INTEGER,
         autoIncrement: true,
