@@ -28,8 +28,22 @@ A REST API built with **NestJS** and **Sequelize** for managing portfolios, imag
 
 ### Local Setup
 
+add .env 
+# .env
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=password
+DB_NAME=portfolio_db
+
+APP_PORT=3000
+
+JWT_SECRET=secret
+
 1. Clone repository:
 
    ```bash
    git clone https://github.com/your-username/portfolio-api.git
    cd portfolio-api
+
+2. Run npm run dev
