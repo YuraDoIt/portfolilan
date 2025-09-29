@@ -1,4 +1,3 @@
-// src/portfolios/portfolios.module.ts
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { PortfoliosController } from './portfolios.controller';

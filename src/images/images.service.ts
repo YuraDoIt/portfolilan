@@ -22,7 +22,6 @@ export class ImagesService {
             throw new NotFoundException('Portfolio not found or does not belong to user');
         }
 
-        // ⬇️ Type now matches expected input for .create()
         return this.imageModel.create(createImageDto);
     }
 

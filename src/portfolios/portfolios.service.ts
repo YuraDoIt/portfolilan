@@ -1,4 +1,3 @@
-// src/portfolios/portfolios.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreatePortfolioDto } from './dto/create-portfolio.dto';
