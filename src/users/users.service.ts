@@ -52,4 +52,8 @@ export class UsersService {
     const user = await this.findOne(id);
     await user.destroy();
   }
+
+  async findByEmail(email: string): Promise<User | null> {
+    return await this.userRepository.findOne({ where: { email } });
+  }
 }
