@@ -1,6 +1,6 @@
 import { UseGuards, Controller, Post, Body, Delete, Param, ParseIntPipe, Request } from "@nestjs/common";
 import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
-import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
+import { JwtAuthGuard } from "src/common/guards/jwt-auth.guard";
 import { CreateImageDto } from "./dto/create-image.dto";
 import { ImagesService } from "./images.service";
 
