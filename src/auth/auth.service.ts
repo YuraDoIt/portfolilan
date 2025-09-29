@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/users/entities/user.entity';
+import { RegisterDto } from './dto/register.dto';
 
-interface IUserWithoutPassword {
+export interface IUserWithoutPassword {
     id: number;
     username: string;
     email: string;
@@ -33,5 +34,15 @@ export class AuthService {
         return {
             access_token: this.jwtService.sign(payload),
         };
+    }
+
+    async register(registerDto: RegisterDto): Promise<IUserWithoutPassword> {
+        const existingUser = await this.usersService.findByEmail(registerDto.email);
+        if (existingUser) {
+            throw new ConflictException('Email already in use');
+        }
+        const user = await this.usersService.create(registerDto);
+        const { password, ...result } = user.get({ plain: true });
+        return result;
     }
 }
